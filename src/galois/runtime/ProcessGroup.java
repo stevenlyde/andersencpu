@@ -44,7 +44,7 @@ public abstract class ProcessGroup<T extends ProcessGroup.Process> implements It
 
     IterationStatistics stats = new IterationStatistics();
     for (T p : processes) {
-      stats.putStats(p.thread, p.numCommitted, p.numAborted);
+      stats.putStats(p.getThread(), p.getCommitted(), p.getAborted());
     }
 
     return stats;
@@ -85,7 +85,7 @@ public abstract class ProcessGroup<T extends ProcessGroup.Process> implements It
       this.id = id;
     }
 
-    private void init(PapiStatistics papiStats, CpuStatistics cpuStats) {
+    public void init(PapiStatistics papiStats, CpuStatistics cpuStats) {
       this.papiStats = papiStats;
       this.cpuStats = cpuStats;
     }
@@ -126,6 +126,10 @@ public abstract class ProcessGroup<T extends ProcessGroup.Process> implements It
       return stopTime;
     }
 
+    public final Thread getThread() {
+      return thread;
+    }
+
     public final int getThreadId() {
       return id;
     }
@@ -141,7 +145,11 @@ public abstract class ProcessGroup<T extends ProcessGroup.Process> implements It
     protected final void incrementAborted() {
       numAborted++;
     }
-    
+
+    protected final long getAborted() {
+      return numAborted;
+    }
+
     protected final void beginIteration() {
       if (papiStats != null)
         papiStats.putStats(id);

@@ -40,22 +40,15 @@ kind.
 
    
     <fail message="Found ${ant.version}. Please install using at least Ant 1.7.">
-      <condition>
-        <and>
-          <not>
-            <contains string="${ant.version}" substring="1.7"/>
-          </not>
-          <not>
-            <contains string="${ant.version}" substring="1.8"/>
-          </not>
-        </and>
-      </condition>
-    </fail>
-    <fail message="Found ${java.vm.name} ${java.version}. Galois requires Java Hotspot VM ${required-jvm} and up.">
         <condition>
             <not>
-                <contains string="${ant.java.version}" substring="1.6"/>
+                <antversion atleast="1.7"/>
             </not>
+        </condition>
+    </fail>
+    <fail message="Found ${java.vm.name} ${java.version}. Galois requires Java Hotspot VM 1.6 and up.">
+        <condition>
+            <matches pattern="1.[1-5]" string="${ant.java.version}"/>
         </condition>
     </fail>
 
